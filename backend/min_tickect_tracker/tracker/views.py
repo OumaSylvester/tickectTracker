@@ -2,7 +2,7 @@ from django.db import models
 from rest_framework.response import Response
 from rest_framework import generics
 from .models import Ticket
-from .serializers import TicketSerializer
+from .serializers import TicketSerializer, UpdateTicketStatusAndPrioritySerializer, TicketStatSerializer
 from .pagination import TicketPagination
 
 
@@ -13,7 +13,7 @@ class TicketListCreateView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         status = self.request.query_params.get('status', None)
-        queryset = Ticket.objects.all()
+        queryset = Ticket.objects.all().order_by('-id')
         if status:
             queryset = queryset.filter(status=status)
         return queryset
@@ -21,7 +21,7 @@ class TicketListCreateView(generics.ListCreateAPIView):
 
 class UpdateTicketView(generics.UpdateAPIView):
     queryset = Ticket.objects.all()
-    serializer_class = TicketSerializer
+    serializer_class = UpdateTicketStatusAndPrioritySerializer
 
     # update ticket's status/priority
     def update(self, request, *args, **kwargs):
@@ -33,7 +33,7 @@ class UpdateTicketView(generics.UpdateAPIView):
   
     
 class TicketStatsView(generics.ListAPIView):
-
+    serializer_class =TicketStatSerializer
     def get_queryset(self):
         """Get the statistics of tickets by status."""
         queryset = Ticket.objects.values('status').annotate(

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import toast from "react-hot-toast";
 import axios from "axios";
@@ -6,7 +7,7 @@ import axios from "axios";
 const API_URL = "http://localhost:8000/api/v1/tickets/";
 
 const UpdateTicketStatusOrPriority = () => {
-    const [id, setId] = useState("");
+    const { id } = useParams();
     const [status, setStatus] = useState("");
     const [priority, setPriority] = useState("");
     const [error, setError] = useState(null);
@@ -18,10 +19,8 @@ const UpdateTicketStatusOrPriority = () => {
         setSuccess(false);
 
         try {
-            const response = await axios.put(`${API_URL}${id}/`, { title, description });
+            const response = await axios.put(`${API_URL}${id}/`, { status, priority });
             setSuccess(true);
-            setTitle("");
-            setDescription("");
             setTimeout(() => setSuccess(false), 2000);
         } catch (error) {
             console.error("Error updating ticket:", error);
@@ -43,10 +42,9 @@ const UpdateTicketStatusOrPriority = () => {
                         onChange={(e) => setStatus(e.target.value)}
                         required
                     >
-                        <option value="pending">Pending</option>
+                        <option value="open">Open</option>
                         <option value="in_progress">In Progress</option>
-                        <option value="completed">Completed</option>
-                        <option value="resolved">Resolved</option>
+                        <option value="closed">Closed</option>
                     </Form.Control>
                 </Form.Group>
 
@@ -61,7 +59,6 @@ const UpdateTicketStatusOrPriority = () => {
                         <option value="low">Low</option>
                         <option value="medium">Medium</option>
                         <option value="high">High</option>
-                        <option value="urgent">Urgent</option>
                     </Form.Control>
                 </Form.Group>
 

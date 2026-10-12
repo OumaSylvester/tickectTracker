@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const API_URL = "http://localhost:8000/api/v1/tickets/";
 
@@ -8,11 +9,14 @@ const ListTickets = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         const fetchTickets = async () => {
             try {
                 const response = await axios.get(API_URL);
-                setTickets(response.data);
+                console.log('data', response.data)
+                setTickets(response?.data?.results);
                 setLoading(false);
             } catch (error) {
                 console.error("Error fetching tickets:", error);
@@ -20,9 +24,12 @@ const ListTickets = () => {
                 setLoading(false);
             }
         };
-
         fetchTickets();
     }, []);
+
+    const handleTicketClick = (ticketId) => {
+        navigate(`/update/${ticketId}`);
+    };
 
     if (loading) {
         return <div>Loading...</div>;
@@ -36,8 +43,8 @@ const ListTickets = () => {
         <div>
             <h1>Tickets</h1>
             <ul>
-                {tickets.map((ticket) => (
-                    <li key={ticket.id}>
+                {tickets?.map((ticket) => (
+                    <li key={ticket.id} onClick={() => handleTicketClick(ticket.id)}>
                         {ticket.title} - {ticket.description}
                     </li>
                 ))}

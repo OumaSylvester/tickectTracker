@@ -5,4 +5,14 @@ from .models import Ticket
 class TicketSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket
-        fields = ['id', 'title', 'description', 'status', 'priority', 'created_at', 'updated_at']
+        fields = "__all__"
+
+
+class UpdateTicketStatusAndPrioritySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ticket
+        fields = ['status', 'priority']
+    
+class TicketStatSerializer(serializers.Serializer):
+    status = serializers.CharField()
+    count = serializers.IntegerField()
