@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Card, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
 
@@ -7,7 +7,7 @@ const API_URL = "http://localhost:8000/api/v1/tickets/stats/";
 
 function TicketStats() {
     const [stats, setStats] = useState(null);
-
+    const navigate = useNavigate();
     useEffect(() => {
         const fetchStats = async () => {
             try {
@@ -23,6 +23,8 @@ function TicketStats() {
 
     return (
         <div>
+            <p onClick={() => navigate("/")}>Tickets List</p>
+            <p onClick={() => navigate("/create")} className="onhover d-inline-block">Create Ticket</p>
             <h1>Ticket Stats</h1>
             {
                 stats && stats.map((stat) => (

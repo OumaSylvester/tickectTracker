@@ -1,11 +1,13 @@
 import { useState } from "react";
 import {Button, Form } from "react-bootstrap";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const API_URL = "http://localhost:8000/api/v1/tickets/";
 
 const CreateTicket = () => {
+    const navigate = useNavigate();
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [error, setError] = useState(null);
@@ -31,6 +33,8 @@ const CreateTicket = () => {
     return (
         <div>
             <h1>Create Ticket</h1>
+             <p onClick={() => navigate("/")}>Tickets List</p>
+            <p onClick={() => navigate("/stats")}>Ticket Stats</p>
             {error && <p style={{ color: "red" }}>{error}</p>}
             {success && <p style={{ color: "green" }}>Ticket created successfully!</p>}
             <Form onSubmit={handleSubmit}>

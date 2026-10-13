@@ -30,6 +30,8 @@ const UpdateTicketStatusOrPriority = () => {
 
     return (
         <div>
+             <p onClick={() => navigate("/")}>Tickets List</p>
+            <p onClick={() => navigate("/stats")}>Ticket Stats</p>
             <h1>Update Ticket</h1>
             {error && <p style={{ color: "red" }}>{error}</p>}
             {success && <p style={{ color: "green" }}>Ticket updated successfully!</p>}

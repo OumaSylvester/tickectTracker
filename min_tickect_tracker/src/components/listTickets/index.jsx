@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import "./index.css";
 
 const API_URL = "http://localhost:8000/api/v1/tickets/";
 
@@ -42,6 +43,8 @@ const ListTickets = () => {
     return (
         <div>
             <h1>Tickets</h1>
+            <p onClick={() => navigate("/create")}>Create Ticket</p>
+            <p onClick={() => navigate("/stats")}>Ticket Stats</p>
             <ul>
                 {tickets?.map((ticket) => (
                     <li key={ticket.id} onClick={() => handleTicketClick(ticket.id)}>
